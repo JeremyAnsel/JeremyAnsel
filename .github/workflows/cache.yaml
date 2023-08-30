@@ -1,0 +1,42 @@
+name: Cache Action
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 */4 * * *
+
+jobs:
+  stats:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    name: Stats Card
+    steps:
+      - uses: actions/checkout@v3
+        name: Check out current commit
+      - name: Download SVGs
+        run: |
+          mkdir grs
+          wget "https://github-readme-stats-jeremyansel.vercel.app/api?username=JeremyAnsel&rank_icon=percentile" -O grs/stats.svg
+          wget "https://github-readme-stats-jeremyansel.vercel.app/api/top-langs/?username=JeremyAnsel&layout=compact" -O grs/languages.svg
+      - uses: actions/upload-artifact@master
+        with:
+          name: stats
+          path: grs
+
+  push:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    name: Push
+    needs: [stats]
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: stats
+          path: grs
+      - name: Push
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: resource/grs
+          build_dir: grs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
