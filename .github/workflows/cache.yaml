@@ -15,8 +15,8 @@ jobs:
       - name: Download SVGs
         run: |
           mkdir grs
-          wget "https://github-readme-stats-jeremyansel.vercel.app/api?username=JeremyAnsel&rank_icon=percentile" -O grs/stats.svg
-          wget "https://github-readme-stats-jeremyansel.vercel.app/api/top-langs/?username=JeremyAnsel&layout=compact" -O grs/languages.svg
+          wget "https://github-readme-stats-msrj-jeremyansels-projects.vercel.app/api?username=JeremyAnsel&rank_icon=percentile" -O grs/stats.svg
+          wget "https://github-readme-stats-msrj-jeremyansels-projects.vercel.app/api/top-langs/?username=JeremyAnsel&layout=compact" -O grs/languages.svg
       - uses: actions/upload-artifact@master
         with:
           name: stats
